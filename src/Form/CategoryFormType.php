@@ -11,12 +11,15 @@ class CategoryFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $builder
+        ->add('name');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Category::class,
+            "csrf_protection" => true,
         ]);
     }
 }
