@@ -1,34 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CategoryController!{% endblock %}
+{% block title %}Catégories
+{% endblock %}
 
 {% block body %}
-    <h1>Liste des catégories</h1>
+	<h1>Liste des catégories</h1>
 
-    <a href="{{ path('app_category_new') }}">Ajouter une catégorie</a>
-
-    <table border="1" style="width:40%; margin-top:20px;">
-        <thead>
-            <tr>
-                <th>Nom de la catégorie</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for category in categories %}
-                <tr>
-                    <td>{{ category.name }}</td>
-                    <td>
-                        <a href="{{ path('app_category_update', {'id': category.id}) }}">
-                            Modifier
-                        </a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="2">Aucune catégorie enregistrée.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+	<table class='table'>
+		<tr>
+			<th>Nom de la catégorie</th>
+			<th>Actions</th>
+		</tr>
+			{% for category in categories %}
+				<tr>
+					<td>{{ category.name }}</td>
+					<td>
+						<a class="btn btn-warning" href="{{ path('app_category_update', {'id': category.id}) }}">
+							Modifier
+						</a>
+						<a class="btn btn-danger" href="{{ path('app_category_delete', {'id': category.id}) }}">Supprimer</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="2">Aucune catégorie enregistrée.</td>
+				</tr>
+			{% endfor %}
+	</table>
+	<a class="btn btn-info" href="{{ path('app_category_new') }}">Ajouter une catégorie</a>
 {% endblock %}
