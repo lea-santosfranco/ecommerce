@@ -1,14 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello!{% endblock %}
+{% block title %}Utilisateur
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello</h1>
-</div>
+	<div class="container">
+		<h1>Liste des utilisateurs</h1>
+		<table class="table">
+			<tr>
+				<th>id</th>
+				<th>Nom</th>
+				<th>Prénom</th>
+				<th>Email</th>
+				<th>Rôle</th>
+				<th>Action</th>
+			</tr>
+			{% for user in users %}
+				<tr>
+					<td>{{ user.id }}</td>
+					<td>{{ user.firstName }}</td>
+					<td>{{ user.lastName }}</td>
+					<td>{{ user.email }}</td>
+					<td>
+						{% if ('ROLE_ADMIN' in user.roles) %}
+							<span class="text-primary">Administrateur</span>
+						{% elseif ('ROLE_EDITOR' in user.roles) %}
+							<span class="text-success">Editeur</span>
+						{% else %}
+							<span class="text-secondary">Client</span>
+						{% endif %}
+					</td>
+					<td>
+						<a href="" class="btn btn-danger">Supprimer</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
 {% endblock %}
