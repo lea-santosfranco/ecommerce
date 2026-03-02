@@ -21,8 +21,9 @@
 						<td>{{ sub_category.name }}</td>
 						<td>{{ sub_category.category.name }}</td>
 						<td>
-							<a href="{{ path('app_sub_category_show', {'id': sub_category.id}) }}">Voir</a>
-							<a href="{{ path('app_sub_category_edit', {'id': sub_category.id}) }}">Modifier</a>
+							<a class="btn btn-outline-info" href="{{ path('app_sub_category_show', {'id': sub_category.id}) }}">Voir</a>
+							<a class="btn btn-outline-warning" href="{{ path('app_sub_category_edit', {'id': sub_category.id}) }}">Modifier</a>
+							<a  class="btn btn-danger" href="{{ path('app_sub_category_delete', {'id': sub_category.id}) }}">Supprimer</a>
 						</td>
 					</tr>
 				{% else %}
@@ -33,6 +34,6 @@
 			</tbody>
 		</table>
 
-		<a class="btn btn-outline-primary" href="{{ path('app_sub_category_new') }}">Creer une nouvelle catégorie</a>
+		<a class="btn btn-outline-primary" href="{{ path('app_sub_category_new') }}">Créer une nouvelle sous-catégorie</a>
 	</div>
 {% endblock %}

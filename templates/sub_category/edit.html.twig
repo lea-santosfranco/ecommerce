@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier sous-catégorie{% endblock %}
+{% block title %}Modifier sous-catégorie
+{% endblock %}
 
 {% block body %}
-    <h1>Modifier sous-catégorie</h1>
+	<div class="container">
+		<h1>Modifier sous-catégorie</h1>
 
-    {{ include('sub_category/_form.html.twig', {'button_label': 'Update'}) }}
+		{{ include('sub_category/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a class="btn btn-outline-primary" href="{{ path('app_sub_category_index') }}">Retour à la liste</a>
+		<a class="btn btn-outline-primary" href="{{ path('app_sub_category_index') }}">Retour à la liste</a>
 
-    {{ include('sub_category/_delete_form.html.twig') }}
+		{{ include('sub_category/_delete_form.html.twig') }}
+	</div>
 {% endblock %}

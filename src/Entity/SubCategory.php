@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SubCategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SubCategoryRepository::class)]
@@ -18,6 +20,17 @@ class SubCategory
 
     #[ORM\ManyToOne(inversedBy: 'subCategories')]
     private ?Category $category = null;
+
+    /**
+     * @var Collection<int, Product>
+     */
+    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'SubCategory')]
+    private Collection $product;
+
+    public function __construct()
+    {
+        $this->product = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,6 +57,33 @@ class SubCategory
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProduct(): Collection
+    {
+        return $this->product;
+    }
+
+    public function addProduct(Product $product): static
+    {
+        if (!$this->product->contains($product)) {
+            $this->product->add($product);
+            $product->addSubCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): static
+    {
+        if ($this->product->removeElement($product)) {
+            $product->removeSubCategory($this);
+        }
 
         return $this;
     }
