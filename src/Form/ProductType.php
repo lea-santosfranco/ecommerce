@@ -37,7 +37,7 @@ class ProductType extends AbstractType
                         maxSizeMessage: 'Veuillez choisir un fichier de type image valide (jpeg, png, jpg, webp) !',
                     )
                 ]
-                    ])
+            ])
             ->add('SubCategory', EntityType::class, [
                 'class' => SubCategory::class,
                 'choice_label' => 'name',

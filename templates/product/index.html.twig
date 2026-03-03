@@ -24,7 +24,7 @@
 					<tr>
 						<td>{{ product.id }}</td>
 						<td>{{ product.Name }}</td>
-						<td>{{ product.Description }}</td>
+						<td>{{ product.Description|slice(0,60) }} ...</td>
 						<td>{{ product.Price }}</td>
 						<td>
 							<a class="btn btn-outline-info" href="{{ path('app_product_show', {'id': product.id}) }}">Voir</a>
