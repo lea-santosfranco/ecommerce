@@ -20,6 +20,7 @@ class ProductType extends AbstractType
             ->add('Name')
             ->add('Description')
             ->add('Price')
+            ->add('stock')
             ->add('Image', FileType::class, [
                 'label' => 'Image du produit',
                 'mapped' => false,
