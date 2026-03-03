@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\AddProductHistory;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -52,6 +54,14 @@ final class ProductController extends AbstractController
 
             $entityManager->persist($product);
             $entityManager->flush();
+
+            $stockHistory = new AddProductHistory();
+            $stockHistory -> setQuantity($product->getStock());
+            $stockHistory -> setProduct($product);
+            $stockHistory -> setCreatedAt(new DateTimeImmutable());
+            $entityManager-> persist($stockHistory);
+            $entityManager-> flush();
+             
             $this->addFlash('success', 'Votre produit à bien été créé');
 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
