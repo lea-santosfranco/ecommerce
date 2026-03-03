@@ -11,9 +11,11 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/admin/product')]
+#[Route('editor/product')]
+#[IsGranted('ROLE_EDITOR')]
 final class ProductController extends AbstractController
 {
     #[Route(name: 'app_product_index', methods: ['GET'])]
@@ -24,7 +26,7 @@ final class ProductController extends AbstractController
         ]);
     }
     #region Add
-    #[Route('/admin/new', name: 'app_product_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $product = new Product();
@@ -44,8 +46,7 @@ final class ProductController extends AbstractController
                             $this->getParameter('image_directory'),
                             $newFileImageName
                         );
-                } catch (FileException  $exception) {
-                }
+                } catch (FileException  $exception) {}
                 $product->setImage($newFileImageName);
             }
 
@@ -62,15 +63,15 @@ final class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/{id}', name: 'app_product_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_product_show', methods: ['GET'])]
     public function show(Product $product): Response
     {
         return $this->render('product/show.html.twig', [
             'product' => $product,
         ]);
     }
-
-    #[Route('/admin/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
+    #region Edit
+    #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProductType::class, $product);
@@ -88,8 +89,8 @@ final class ProductController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    #[Route('/admin/{id}', name: 'app_product_delete', methods: ['POST'])]
+    #region Delete
+    #[Route('/{id}', name: 'app_product_delete', methods: ['POST'])]
     public function delete(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->getPayload()->getString('_token'))) {
