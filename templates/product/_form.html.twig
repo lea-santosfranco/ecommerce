@@ -6,12 +6,14 @@
 	{{ form_widget(form.Description, {'attr':{'class': 'form form-control'}}) }}
 	<label for="">Prix</label>
 	{{ form_widget(form.Price, {'attr':{'class': 'form form-control'}}) }}
+	{% if form.stock is defined and button_label|default('') != 'Update' %}
 	<label for="">Stock</label>
 	{{ form_widget(form.stock, {'attr':{'class': 'form form-control'}}) }}
+	{% endif %}
 	<label for="">Sous-catégorie</label>
 	{{ form_widget(form.SubCategory, {'attr':{'class': 'form form-control'}}) }}
 	<label for="">Image</label>
-	{{ form_widget(form.Image, {'attr':{'class': 'form'}}) }}
+	{{ form_widget(form.image, {'attr':{'class': 'form'}}) }}
 	<button class="btn btn-outline-primary">{{ button_label|default('Sauvegarder') }}</button>
 	{{ form_end(form) }}
 </div>
