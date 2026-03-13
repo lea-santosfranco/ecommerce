@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,13 +21,14 @@ final class HomeController extends AbstractController
         ]);
     }
     #[Route('/product/{id}/show', name: 'app_home_product_show', methods: ['GET'])]
-    public function showProduct(Product $product, ProductRepository $productRepository): Response
+    public function showProduct(Product $product, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
     {
         $lastProductsAdd = $productRepository->findBy([], ['id'=>'DESC'],5);
         
         return $this->render('home/show.html.twig', [
             'product'=>$product,
-            'products'=>$lastProductsAdd
+            'products'=>$lastProductsAdd,
+            'categories'=>$categoryRepository->findAll(),
         ]);
     }
 }
