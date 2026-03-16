@@ -62,6 +62,10 @@
           <ul class="dropdown-menu">
           {% for category in categories %}
             <li><a class="dropdown-item" href="">{{ category.name }}</a></li>
+            {% for subCategory in category.subCategories%}
+            <li><a class="dropdown-item" href="">{{subCategory.name}}</a></li>
+            {% endfor %}
+            <li><hr class="dropdown-divider"></li>
             {% endfor %}
           </ul>
         </li>
