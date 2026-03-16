@@ -40,7 +40,8 @@ final class HomeController extends AbstractController
         $subCategory = $subCategoryRepository->find($id);
         return $this->render('home/filter.html.twig', [
             'products'=>$products,
-            'subCategory'=>$subCategory
+            'subCategory'=>$subCategory,
+            'categories'=>$subCategoryRepository->findAll(),
         ]);
     }
 }
