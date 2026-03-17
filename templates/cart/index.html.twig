@@ -22,10 +22,13 @@
 					<td>{{ item.quantity }}</td>
 					<td>{{ item.product.price * item.quantity }}</td>
 					<td>
-						<div class="d-grid gap-2 col-6 mx-auto">
+                    {% if total > 0 %}
+                    <h2>Total : {{total}} euros</h2>
+						<div class="row">
 							<a href="" class="btn btn-sm btn-primary">Validez la commande</a>
 							<a href="{{path('app_cart_remove',{'id':item.product.id}) }}" class=" btn btn-sm btn-outline-danger">Supprimer le panier</a>
 						</div>
+                    {% endif %}
 					</td>
 				</tr>
 			{% else %}
