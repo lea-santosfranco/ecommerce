@@ -9,10 +9,14 @@ use Symfony\Component\Routing\Attribute\Route;
 final class OrderController extends AbstractController
 {
     #[Route('/order', name: 'app_order')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $order = new Order();
+        $form = $this->createForm(OrderType::class, $order);
+        $form ->handleRequest($request);
+        
         return $this->render('order/index.html.twig', [
-            'controller_name' => 'OrderController',
+            'form' => $form->createView(),
         ]);
     }
 }
