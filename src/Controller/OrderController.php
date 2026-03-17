@@ -7,12 +7,13 @@ use App\Form\OrderType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class OrderController extends AbstractController
 {
     #[Route('/order', name: 'app_order')]
-    public function index(Request $request): Response
+    public function index(Request $request, SessionInterface $sessionInterface): Response
     {
         $order = new Order();
         $form = $this->createForm(OrderType::class, $order);

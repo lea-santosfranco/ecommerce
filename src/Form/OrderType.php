@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\city;
+use App\Entity\City;
 use App\Entity\Order;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -14,16 +14,35 @@ class OrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName')
-            ->add('lastName')
-            ->add('phone')
-            ->add('adresse')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
+            ->add('firstName', null, [
+                'attr' => [
+                    'class' => 'form form-control',
+                ]
             ])
+            ->add('lastName', null, [
+                'attr' => [
+                    'class' => 'form form-control',
+                ]
+            ])
+            ->add('phone', null, [
+                'attr' => [
+                    'class' => 'form form-control',
+                ]
+            ])
+            ->add('adresse', null, [
+                'attr' => [
+                    'class' => 'form form-control',
+                ]
+            ])
+            // ->add('createdAt', null, [
+            //     'widget' => 'single_text',
+            // ])
             ->add('city', EntityType::class, [
-                'class' => city::class,
-                'choice_label' => 'id',
+                'class' => City::class,
+                'choice_label' => 'name',
+                'attr' => [
+                    'class' => 'form form-control',
+                ]
             ])
         ;
     }

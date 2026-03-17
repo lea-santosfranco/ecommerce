@@ -4,11 +4,12 @@
 
 {% block body %}
 <div class ="container">
-    < class="row">
+    <div class="row">
         <div class="col-8">
     <h1 class="mt-4 mb-4">Mes commandes</h1>
     {{form_start(form)}}
-        <input class="btn" type="submit" value="Continuer">
+    {{form_widget(form)}}
+        <input class="btn btn-success" type="submit" value="Continuer">
     {{form_end(form)}}
         </div>
         <div class="col-4">
