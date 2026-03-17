@@ -24,7 +24,7 @@
 					<td>
 						<div class="d-grid gap-2 col-6 mx-auto">
 							<a href="" class="btn btn-sm btn-primary">Validez la commande</a>
-							<a href="" class=" btn btn-sm btn-outline-danger">Supprimer le panier</a>
+							<a href="{{path('app_cart_remove',{'id':item.product.id}) }}" class=" btn btn-sm btn-outline-danger">Supprimer le panier</a>
 						</div>
 					</td>
 				</tr>
