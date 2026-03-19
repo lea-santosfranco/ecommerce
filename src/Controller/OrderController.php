@@ -46,7 +46,9 @@ final class OrderController extends AbstractController
     #[Route ('/city/{id}/shipping/cost', name: 'app_city_shipping_cost')]
     public function cityShippingCost(City $city): Response
     {
-        dd($city);
+        $cityShippingPrice = $city->getShippingCost();
+
+        return new Response($cityShippingPrice);
     }
 }
 
