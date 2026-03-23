@@ -22,7 +22,7 @@
 					<td>{{ item.quantity }}</td>
 					<td>{{ item.product.price * item.quantity }}</td>
 					<td>
-                    <a href="{{path('app_cart_product_remove',{'id':item.product.id}) }}" class=" btn btn-sm btn-outline-danger">Supprimer du panier</a>
+                    <a data-turbo="false" href="{{path('app_cart_product_remove',{'id':item.product.id}) }}" class=" btn btn-sm btn-outline-danger">Supprimer du panier</a>
                     {# {% if total > 0 %}
                     
                     {% endif %} #}
