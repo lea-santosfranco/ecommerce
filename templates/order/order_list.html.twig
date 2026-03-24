@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order List{% endblock %}
+
+{% block body %}
+
+    {% for order in orders %}
+         <h2> Commande n° {{order.id}} </h2>
+         <table class="table">
+            <tr>
+                <th>Nom</th>
+                <th>Date de création</th>
+                <th>Adresse</th>
+                <th>Numéro de téléphone</th>
+                <th>Paiement à la livraison</th>
+            </tr>
+            <tr>
+                <td>{{order.firstName}}</td>
+                <td>{{order.createdAt|date}}</td>
+                <td>{{order.adresse}}</td>
+                <td>{{order.phone}}</td>
+                <td>{{order.payOnDelivery}}</td>
+            </tr>
+        </table>
+        <table>
+        {% for product in order.orderProducts %}
+            <table class="table">
+                <tr>
+                    <th>Nom du produit</th>
+                    <th>Image</th>
+                    <th>Prix</th>
+                </tr>
+                <tr>
+                    <td>{{product.product.name}}</td>
+                    <td><img src="{{ asset('images/'~product.product.image)}}" class="card-img-top w-25" alt="image des produits"></td>
+                    <td>{{product.product.price}}</td>
+                </tr>
+            </table>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
