@@ -14,24 +14,29 @@ class OrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName', null, [
-                'attr' => [
-                    'class' => 'form form-control',
+            ->add('firstName', null,[
+                'attr'=>[
+                    'class'=>'form form-control'
                 ]
             ])
-            ->add('lastName', null, [
-                'attr' => [
-                    'class' => 'form form-control',
+            ->add('lastName', null,[
+                'attr'=>[
+                    'class'=>'form form-control'
                 ]
             ])
-            ->add('phone', null, [
-                'attr' => [
-                    'class' => 'form form-control',
+            ->add('email', null,[
+                'attr'=>[
+                    'class'=>'form form-control'
                 ]
             ])
-            ->add('adresse', null, [
-                'attr' => [
-                    'class' => 'form form-control',
+            ->add('phone', null,[
+                'attr'=>[
+                    'class'=>'form form-control'
+                ]
+            ])
+            ->add('adress', null,[
+                'attr'=>[
+                    'class'=>'form form-control'
                 ]
             ])
             // ->add('createdAt', null, [
@@ -40,18 +45,15 @@ class OrderType extends AbstractType
             ->add('city', EntityType::class, [
                 'class' => City::class,
                 'choice_label' => 'name',
-                'attr' => [
-                    'class' => 'form form-control',
-                ]
+                'attr'=>[
+                        'class'=>'form form-control'
+                    ]
             ])
-
             ->add('payOnDelivery', null, [
-                'label' => 'Payez à la livraison'
+                'label'=>'Payez à la livraison'
             ])
         ;
     }
-
-    
 
     public function configureOptions(OptionsResolver $resolver): void
     {

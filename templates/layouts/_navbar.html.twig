@@ -30,7 +30,8 @@
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{path('app_user')}}">Utilisateur</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{{path('app_orders_show')}}">Historique des commandes</a></li>
+            <li><a class="dropdown-item" href="{{ path('app_orders_show', {'type': 'no_delivery'}) }}">Historique des commandes</a>
+</li>
           </ul>
         </li>
         {% endif %}

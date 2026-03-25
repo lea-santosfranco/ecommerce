@@ -1,75 +1,149 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Commandes en cours{% endblock %}
+{% block title %}Commandes{% endblock %}
 
 {% block body %}
-<div class ="container">
-    <div class="row">
-        <div class="col-8">
-            <h1 class="mt-4 mb-4">Mes commandes</h1>
-            {{form_start(form)}}
-            {{form_widget(form)}}
-                <input class="btn btn-success" type="submit" value="Continuer">
-            {{form_end(form)}}
-        </div>
-        <div class="col-4 mt-5">
-            <span class="mb-2">Montant à payer : </span>
-            <h3>
-                <span id="card-price">{{ total }} €</span>
-            </h3>
-            <span>Frais de livraison :</span>
-            <h3>
-                <span id="shippingCost"></span>
-                €
-            </h3>
-            <span>Montant total à payer : </span>
-            <h3>
-                <span class="total-price"></span>
-                €
-            </h3>
-        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <h1 class='mt-4 mb-4'>Commande</h1>
+                {{ form_start(form, {"attr":{'data-turbo':'false'}}) }}
+                    {{ form_widget(form) }}
+                <input type="submit" value="Continuer" class="btn btn-outline-primary">
+                {{ form_end(form) }}
+                
+                
+            </div>
+            <div class="col-4 mt-5">
+                <span class='mb-2'>Montant à payer: </span>
+                <h3>
+                    <span id="card-price">{{ total }}</span>
+                    €
+                </h3>  
+                <span>Frais de livraison</span> 
+                <h3>
+                    <span id="shippingCost"></span>
+                    €
+                </h3> 
+                <span>Montant total à payer</span> 
+                <h3>
+                    <span class="total-price"></span>
+                    €
+                </h3> 
+            </div>
         </div>
     </div>
-</div>
-    <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
-{# // <script>$(document).ready(function(){alert('hello world')});</script> #}
-<script>
-$(document).ready(function(){
-    const citySelector = $('#order_city');
-    const cityValue = citySelector.val();
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        // $(document).ready(function(){ //si le document est bien charge cela affiche cela
+        //     alert('hello world') exemple
+        // });
+       // Lorsque le document est prêt (c'est-à-dire que la page a fini de charger)
+        $(document).ready(function(){
+            // Sélectionne l'élément HTML avec l'id "order_city" et stocke-le dans la variable citySelector
+            const citySelector = $('#order_city');
+                // Récupère la valeur actuelle de l'élément citySelector (c'est-à-dire la valeur sélectionnée dans la liste déroulante)
+            const cityValue = citySelector.val();
+                // Construit l'URL de la requête AJAX en fonction de la valeur de la ville sélectionnée
+            const url = `http://localhost:8000/city/${cityValue}/shipping/cost`;
+                       
+            // Définition d'une fonction nommée ajaxRequest qui prend en paramètre une URL
+            function ajaxRequest(url) {
+            // Envoie une requête AJAX de type GET à l'URL construite
+                $.ajax({
+                    // L'URL de la requête (celle qui a été passée en paramètre)
+                    url: url,
+                    // Le type de requête (ici, GET, ce qui signifie que nous récupérons des données du serveur)
+                    type: 'GET',
+                    // Fonction appelée en cas de succès de la requête (c'est-à-dire si le serveur répond avec un code 200 OK)
+                    success: function(response) {
+                    // On parse le contenu de la réponse en JSON pour le rendre exploitable en JavaScript
+                        const newResponse = JSON.parse(response)
+                        
+                        // On vérifie si le statut de la réponse est égal à 200 (OK)
+                        if (parseInt(newResponse.status) === 200){
+                            // On affiche le statut de la réponse dans la console pour débogage
+                            console.log(newResponse.status)
+                            
+                            // On met à jour le contenu de l'élément HTML ayant l'ID "shippingCost" avec le contenu de la réponse
+                            $("#shippingCost").text(newResponse.content)
 
-    const url = `/city/${cityValue}/shipping/cost`;
+                            // On récupère le prix de la carte (élément HTML ayant l'ID "card-price") et le coût de livraison (élément HTML ayant l'ID "shippingCost")
+                            const cardPrice = parseInt($('#card-price').text());
+                            //console.log(cardPrice)
+                            const shippingCost = parseInt($('#shippingCost').text());
+                            //console.log(shippingCost)
 
-    function ajaxRequest(url) {
-        $.ajax({
-            url:url,
-            type : 'GET',
-            success:function(response){
-                const newResponse = JSON.parse(response)
-
-                if (parseInt(newResponse.status) === 200){
-                    console.log(newResponse.status)
-                    $("#shippingCost").text(newResponse.content)
-
-                    const cardPrice = parseInt($('#card-price').text());
-                    const shippingCost = parseInt($('#shippingCost').text());
-                    $('.total-price').text(cardPrice + shippingCost);
-
-                }
-            },
-            error:function(xhr,status,error){
-
+                            // On met à jour le contenu de l'élément HTML ayant la classe "total-price" avec la somme du prix de la carte et du coût de livraison
+                            $('.total-price').text(cardPrice + shippingCost);
+                        }
+                    },
+                    // Fonction appelée en cas d'erreur de la requête
+                    error: function(xhr, status, error) {
+                    // À remplacer par le code à exécuter en cas d'erreur
+                    }
+                })
             }
+            //appel de la fonction
+            ajaxRequest(url)
+
+            citySelector.on('change',function() {
+                const urlUpdate = `http://localhost:8000/city/${$(this).val()}/shipping/cost`;
+                //alert(urlUpdate)
+                ajaxRequest(urlUpdate)
+            })
         })
-    }
+    </script>
+    // <script>//en javascript Vanilla sans jquery
+    //     document.addEventListener('DOMContentLoaded', function() {
+    // // Sélection de l'élément avec l'ID "order_city"
+    //         const citySelector = document.getElementById('order_city');
 
-    ajaxRequest(url)
+    //         // Fonction pour faire une requête AJAX GET
+    //         function ajaxRequest(url) {
+    //             fetch(url)
+    //                 .then(response => response.text()) // récupère la réponse brute (texte)
+    //                 .then(raw => {
+    //                     const newResponse = JSON.parse(raw);
 
-    citySelector.on('change', function(){
-        const urlUpdate = `/city/${$(this).val()}/shipping/cost`;
-        ajaxRequest(urlUpdate)
-    })
+    //                     if (parseInt(newResponse.status) === 200) {
+    //                         console.log(newResponse.status);
 
-})        
-</script>
+    //                         // Mise à jour du contenu de shippingCost
+    //                         document.getElementById('shippingCost').textContent = newResponse.content;
+
+    //                         // Récupération et maj des prix
+    //                         const cardPrice = parseInt(document.getElementById('card-price').textContent, 10);
+    //                         const shippingCost = parseInt(document.getElementById('shippingCost').textContent, 10);
+
+    //                         // Mise à jour du prix total (premier élément trouvé avec la classe 'total-price')
+    //                         const totalPriceElem = document.querySelector('.total-price');
+    //                         if (totalPriceElem) {
+    //                             totalPriceElem.textContent = cardPrice + shippingCost;
+    //                         }
+    //                     }
+    //                 })
+    //                 .catch(error => {
+    //                     // À remplacer par le code à exécuter en cas d'erreur
+    //                     // console.error('Erreur AJAX:', error);
+    //                 });
+    //         }
+
+    //         // Si citySelector existe :
+    //         if (citySelector) {
+    //             const cityValue = citySelector.value;
+    //             const url = `http://localhost:8000/city/${cityValue}/shipping/cost`;
+
+    //             ajaxRequest(url);
+
+    //             // Écouteur sur le changement de ville
+    //             citySelector.addEventListener('change', function() {
+    //                 const urlUpdate = `http://localhost:8000/city/${this.value}/shipping/cost`;
+    //                 ajaxRequest(urlUpdate);
+    //             });
+    //         }
+    //     });
+
+    // </script>
+    
 {% endblock %}
