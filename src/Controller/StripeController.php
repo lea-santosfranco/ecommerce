@@ -18,11 +18,11 @@ class StripeController extends AbstractController
     #[Route('/pay/success', name: 'app_stripe_success')]
     public function success(SessionInterface $session): Response
     {
-        $session->set('cart',[]);
+        $session->set('cart', []);
         
         return $this->render('stripe/index.html.twig', [
-            'controller_name' => 'StripeController',
-        ]);
+        'status' => 'success'
+    ]);
     }
 
     
@@ -30,12 +30,13 @@ class StripeController extends AbstractController
     public function cancel(): Response
     {
         
-        return $this->render('stripe/index.html.twig', [
-            'controller_name' => 'StripeController',
-        ]);
+    {
+    return $this->render('stripe/index.html.twig', [
+        'status' => 'cancel'
+    ]);
     }
 
-    
+    }
     #[Route('/stripe/notify', name: 'app_stripe_notify')]
     public function stripeNotify(Request $request, 
                                 OrderRepository $orderRepository,
