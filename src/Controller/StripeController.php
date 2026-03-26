@@ -75,17 +75,17 @@ class StripeController extends AbstractController
                 
                
                 $fileName = 'stripe-detail-'.uniqid().'.txt';
-                file_put_contents($fileName, $paymentIntent);
+                $orderId = $paymentIntent->metadata->orderId;
+                file_put_contents($fileName, $orderId);
 
-                // $orderId = $paymentIntent->metadata->orderId;
-                // $order = $orderRepository->find($orderId);
+                $order = $orderRepository->find($orderId);
 
-                // $cartPrice = $order->getTotalPrice();
-                // $stripeTotalAmount = $paymentIntent->amount/100;
-                // if($cartPrice==$stripeTotalAmount){
-                //     $order->setIsPaymentCompleted(1);
-                //     $entityManager->flush();
-                // }
+                $cartPrice = $order->getTotalPrice();
+                $stripeTotalAmount = $paymentIntent->amount/100;
+                if($cartPrice==$stripeTotalAmount){
+                    $order->setIsPaymentCompleted(1);
+                    $entityManager->flush();
+                }
 
                 break;
             case 'payment_method.attached':   
