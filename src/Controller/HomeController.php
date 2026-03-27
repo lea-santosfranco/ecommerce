@@ -23,6 +23,7 @@ final class HomeController extends AbstractController
             $data,
             $request->query->getInt('page', 1),
             3
+        
         );
         
         return $this->render('home/index.html.twig', [
