@@ -77,7 +77,6 @@ class CategoryControllerTest extends WebTestCase
         $categoryRepoMock = $this->createMock(CategoryRepository::class);
         $categoryRepoMock->method('findAll')->willReturn([]);
         static::getContainer()->set(CategoryRepository::class, $categoryRepoMock);
-
         // 🔑 Connexion admin test@test.com
         $container = static::getContainer();
         $userProvider = $container->get('security.user.provider.concrete.app_user_provider_test');
